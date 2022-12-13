@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\BlogController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\user\UploadController;
 use App\Http\Controllers\user\UserBlogController;
 use App\Http\Controllers\user\UserProductController;
@@ -25,16 +26,16 @@ Route::get('/', function () {
 Route::get('/upload.upload', [UploadController::class, 'index']);
 Route::any('/upload', [UploadController::class, 'store'])->name('user.upload');
 
-Route::get('product', [ProductController::class, 'index'])->name('product');
-Route::get('product.create', [ProductController::class, 'create'])->name('product.create');
-Route::post('product', [ProductController::class, 'store'])->name('product.store');
-Route::get('product.show/{id}', [ProductController::class, 'show'])->name('product.show');
-Route::get('product.edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
-Route::put('product.update/{id}', [ProductController::class, 'update'])->name('product.update');
-Route::get('product.delete/{id}', [ProductController::class, 'destroy'])->name('product.delete');
+Route::get('product', [ProductController::class, 'index'])->name('product')->middleware('withAuth');
+Route::get('product.create', [ProductController::class, 'create'])->name('product.create')->middleware('withAuth');
+Route::post('product', [ProductController::class, 'store'])->name('product.store')->middleware('withAuth');
+Route::get('product.show/{id}', [ProductController::class, 'show'])->name('product.show')->middleware('withAuth');
+Route::get('product.edit/{id}', [ProductController::class, 'edit'])->name('product.edit')->middleware('withAuth');
+Route::put('product.update/{id}', [ProductController::class, 'update'])->name('product.update')->middleware('withAuth');
+Route::get('product.delete/{id}', [ProductController::class, 'destroy'])->name('product.delete')->middleware('withAuth');
 
 
-Route::prefix('blog')->name('blog.')->controller(BlogController::class)->group(function () {
+Route::middleware('withAuth')->prefix('blog')->name('blog.')->controller(BlogController::class)->group(function () {
     Route::get('/', 'index')->name('blog');
     Route::get('/create', 'create')->name('create');
     Route::get('/show/{id}', 'show')->name('show');
@@ -52,3 +53,6 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::get('/blog', [UserBlogController::class, 'index'])->name('blog');
     Route::get('/blog/{id}', [UserBlogController::class, 'readMore'])->name('readMore');
 });
+
+Route::any('/login', [AuthController::class, 'login'])->name('login');
+Route::any('logout', [AuthController::class, 'logout'])->name('logout')->middleware('withAuth');
