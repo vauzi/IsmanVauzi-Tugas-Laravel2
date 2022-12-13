@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <div class="w-[1070px] mx-auto mt-10 bg-white p-7 rounded-lg">
+    <div class="w-full mx-auto mt-10 bg-white p-7 rounded-lg">
         <div class="flex justify-end mt-10">
             <div class="align-bottom flex items-center">
                 <a href="{{ route('blog.blog') }}" 

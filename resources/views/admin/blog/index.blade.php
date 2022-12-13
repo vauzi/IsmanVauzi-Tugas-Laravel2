@@ -43,7 +43,7 @@
                                     {{ $i++ }}
                                 </th>
                                 <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{ $d->title }}
+                                    <p class="inline-block w-52 truncate">{{ $d->title }}</p>
                                 </th>
                                 <td class="py-4 px-6">
                                     <img src="{{ asset($d->image) }}" class="w-28" alt="">
