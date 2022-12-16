@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,10 @@
     @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-100">
-    {{$slot}}
+    <x-navbar></x-navbar>
+    <div class="flex pt-10">
+        <x-side-bar></x-side-bar>
+        {{$slot}}
+    </div>
 </body>
 </html>

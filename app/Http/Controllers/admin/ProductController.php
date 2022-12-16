@@ -84,7 +84,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->file('image'));
         $update = Product::findOrFail($id);
         $file = ($request->file('image') !== null) ? 'storage/' . $request->file('image')->store('images/product', 'public') : $update->path_image;
         $update->update([
@@ -95,7 +94,7 @@ class ProductController extends Controller
             'description'   => $request->input('description'),
         ]);
 
-        return redirect()->route('product');
+        return redirect()->route('product.show', $update->id);
     }
 
     /**
