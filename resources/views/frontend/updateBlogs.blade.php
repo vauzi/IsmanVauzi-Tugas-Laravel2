@@ -22,16 +22,29 @@
             <textarea name="content" id="content" cols="30" rows="10"></textarea>
         </div>
         <button type="submit" class="btnsave">
-            Save changes
+            Save change
         </button>
     </form>
     <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
     <script>
+        const id = {{ $id }};
+        const data = [];
+        $.ajax({
+                url: `http://localhost:8000/api/bloges/${id}`,
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    data.push(response.data)
+                    $('#title').val(data[0].title);
+                    $('#writer').val(data[0].writer);
+                    $('#content').val(data[0].content);
+                }
+            });
         $(document).ready(function (e) {
             $("#saveBlog").on('submit',(function(e) {
                 e.preventDefault();
                 $.ajax({
-                    url: "http://localhost:8000/api/bloges",
+                    url: `http://localhost:8000/api/bloges/${id}`,
                     method: "POST",
                     data: new FormData(this),
                     contentType: false,
@@ -39,7 +52,7 @@
                     processData:false,
                     success: function(res){
                         window.location.href = "http://localhost:8000";
-                        console.log(res);
+                        console.log(res.data);
                     },
                     error: function(err){
                         console.log(err);

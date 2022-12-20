@@ -18,9 +18,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// start route frontend from backEnd
 Route::get('/', function () {
-    return view('welcome');
+    return view('frontend.index');
 });
+Route::get('/bloges/create', function () {
+    return view('frontend.add');
+})->name('add');
+Route::get('/bloges/edit/{id}', function ($id) {
+    return view('frontend.updateBlogs', ['id' => $id]);
+});
+
+// end route frontend from backEnd
 
 Route::get('/upload.upload', [UploadController::class, 'index']);
 Route::any('/upload', [UploadController::class, 'store'])->name('user.upload');

@@ -13,10 +13,10 @@ class BlogsController extends Controller
 {
     public function index()
     {
-        $blog = Blog::get();
+        $blog = Blog::query()->get();
         return response()->json([
             'status' => 'success',
-            'message' => 'success',
+            'message' => 'get all blog posts',
             'data' => $blog,
         ]);
     }
@@ -49,11 +49,11 @@ class BlogsController extends Controller
         try {
             $image = $request->file('image')->store('images/blog', 'public');
             $post = Blog::create([
-                'title'     => $request->title,
-                'writer'    => $request->writer,
-                'slug'      => Str::slug($request->title),
+                'title'     => $request->input('title'),
+                'writer'    => $request->input('writer'),
+                'slug'      => Str::slug($request->input('title')),
                 'image'     => 'storage/' . $image,
-                'content'   => $request->content,
+                'content'   => $request->input('content'),
             ], 201);
             return response()->json([
                 'status' => 'success',
@@ -81,10 +81,14 @@ class BlogsController extends Controller
             ]
         );
         if ($validator->fails()) return response()->json($validator->errors(), 400);
-
         try {
             $data = Blog::findOrFail($id);
-            $image = ($request->file('image') !== null) ? 'storage/' . $request->file('image')->store('images/blog', 'public') : $data->image;
+            if ($request->file('image') !== null) {
+                $image = 'storage/' . $request->file('image')->store('images/blog', 'public');
+                unlink(public_path($data->image));
+            } else {
+                $image = $data->image;
+            }
             $data->update([
                 'title' => $request->input('title'),
                 'writer' => $request->input('writer'),

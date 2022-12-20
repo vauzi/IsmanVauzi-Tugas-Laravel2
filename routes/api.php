@@ -21,7 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::get('bloges', [BlogsController::class, 'index']);
-// Route::get('bloges/{id}', [BlogsController::class, 'show']);
-// Route::post('bloges', [BlogsController::class, 'store']);
-Route::resource('bloges', BlogsController::class)->except(['create', 'edit']);
+Route::get('bloges', [BlogsController::class, 'index']);
+Route::get('bloges/{id}', [BlogsController::class, 'show']);
+Route::post('bloges', [BlogsController::class, 'store']);
+Route::post('bloges/{id}', [BlogsController::class, 'update']);
+Route::POST('bloges/delete/{id}', [BlogsController::class, 'destroy']);
+// Route::post('bloges/store', [BlogsController::class, 'store']);
+// Route::resource('bloges', BlogsController::class)->except(['create', 'edit']);
