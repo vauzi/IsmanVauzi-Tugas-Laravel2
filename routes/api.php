@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\backEnd\BlogsController;
 use App\Http\Controllers\backEnd\PenggunaController;
+use App\Http\Controllers\backEnd\ProductsController;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,5 +27,9 @@ Route::get('bloges/{id}', [BlogsController::class, 'show']);
 Route::post('bloges', [BlogsController::class, 'store']);
 Route::post('bloges/{id}', [BlogsController::class, 'update']);
 Route::POST('bloges/delete/{id}', [BlogsController::class, 'destroy']);
-// Route::post('bloges/store', [BlogsController::class, 'store']);
-// Route::resource('bloges', BlogsController::class)->except(['create', 'edit']);
+
+Route::get('/products/list', [ProductsController::class, 'index']);
+Route::get('/products/show/{id}', [ProductsController::class, 'show']);
+Route::post('/products/create', [ProductsController::class, 'store']);
+Route::post('/products/update/{id}', [ProductsController::class, 'update']);
+Route::post('/products/delete/{id}', [ProductsController::class, 'destroy']);

@@ -2,19 +2,21 @@
     <title>App</title>
     <body>
         <div style="display: flex; margin-top: 3rem;">
-            <a href="" style="margin-right: 20rem;"><button>Tambbah Blog</button></a>
+            <a href="{{ route('frontend.createProduct')}}" style="margin-right: 20rem;"><button>Tambbah Product</button></a>
             <div>
-                <a href="{{ route('frontend.product') }}">Product</a>
+                <a href="{{ route('/') }}">Blog</a>
             </div>
         </div>
         <br>
         <table border="1">
             <thead>
                 <tr>
-                    <th>foto</th>
-                    <th>Judul</th>
-                    <th>Pengarang</th>
-                    <th>action</th>
+                    <th>product</th>
+                    <th>image</th>
+                    <th>Stok</th>
+                    <th>Harga</th>
+                    <th>Desktipsi</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="daftar-blog">
@@ -27,20 +29,22 @@
             getData();
             function getData() {
                 $.ajax({
-                    url: "http://localhost:8000/api/bloges",
+                    url: "http://localhost:8000/api/products/list",
                     method: "GET",
                     dataType: "json",
                     success: function (response) {
                         const data = response.data
                         var htmlTbody = "";
-                        for (var blogs of data) {
+                        for (var product of data) {
                             htmlTbody += `<tr>
-                                            <td><img src="${blogs.image}" style="width: 100px" alt="Foto blog post"></td>
-                                            <td>${blogs.title}</td>
-                                            <td>${blogs.writer}</td>
+                                            <td>${product.name}</td>
+                                            <td><img src="{{ asset('${product.path_image}')}}" style="width: 100px" alt="Foto blog post"></td>
+                                            <td>${product.stock}</td>
+                                            <td>${product.price}</td>
+                                            <td>${product.description}</td>
                                             <td>
-                                                <a href="http://localhost:8000/bloges/edit/${blogs.id}">Update</a>
-                                                <button onclick="deleted(${blogs.id})">Delete</button>
+                                                <a href="http://localhost:8000/frontend/product/update/${product.id}">Update</a>
+                                                <button onclick="deleted(${product.id})">Delete</button>
                                             </td>
                                         </tr>`
                         }
@@ -52,7 +56,7 @@
             function deleted(id) {
                 if (confirm("Apakah anda yakin ingin menghapus data?")) {
                     $.ajax({
-                        url: `http://localhost:8000/api/bloges/delete/${id}`,
+                        url: `http://localhost:8000/api/products/delete/${id}`,
                         method: "POST",
                         dataType: "json",
                         success: function (response) {

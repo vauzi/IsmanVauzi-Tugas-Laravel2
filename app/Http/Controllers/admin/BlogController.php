@@ -84,7 +84,12 @@ class BlogController extends Controller
     public function update(Request $request, $id)
     {
         $update = Blog::findOrFail($id);
-        $image = ($request->file('image') !== null) ? 'storage/' . $request->file('image')->store('images/blog', 'public') : $update->image;
+        if ($request->file('image') !== null) {
+            $image = 'storage/' . $request->file('image')->store('images/blog', 'public');
+            unlink(public_path($update->image));
+        } else {
+            $image = $update->image;
+        }
         $blog = [
             'title' => $request->input('title'),
             'writer' => $request->input('writer'),

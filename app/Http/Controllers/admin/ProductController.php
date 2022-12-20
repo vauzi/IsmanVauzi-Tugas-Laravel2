@@ -85,7 +85,13 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $update = Product::findOrFail($id);
-        $file = ($request->file('image') !== null) ? 'storage/' . $request->file('image')->store('images/product', 'public') : $update->path_image;
+        if ($request->file('image') !== null) {
+            $file = 'storage/' . $request->file('image')->store('images/product', 'public');
+            unlink(public_path($update->image));
+        } else {
+            $file = $update->image;
+        }
+        $file = ($request->file('image') !== null) ?: $update->path_image;
         $update->update([
             "name"          => $request->input('name'),
             'path_image'    => $file,

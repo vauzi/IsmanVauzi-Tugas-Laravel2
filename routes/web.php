@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 // start route frontend from backEnd
 Route::get('/', function () {
     return view('frontend.index');
-});
+})->name('/');
 Route::get('/bloges/create', function () {
     return view('frontend.add');
 })->name('add');
@@ -29,6 +29,16 @@ Route::get('/bloges/edit/{id}', function ($id) {
     return view('frontend.updateBlogs', ['id' => $id]);
 });
 
+
+Route::get('frontend/product', function () {
+    return view('frontend.productIndex');
+})->name('frontend.product');
+Route::get('frontend/product/create', function () {
+    return view('frontend.createProduct');
+})->name('frontend.createProduct');
+Route::get('frontend/product/update/{id}', function ($id) {
+    return view('frontend.updateProduct', ['id' => $id]);
+})->name('frontend.updateProduct');
 // end route frontend from backEnd
 
 Route::get('/upload.upload', [UploadController::class, 'index']);

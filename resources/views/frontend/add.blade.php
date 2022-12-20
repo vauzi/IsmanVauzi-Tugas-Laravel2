@@ -11,11 +11,11 @@
         </div>
         <div>
             <label for="writer">Pengarang</label>
-            <input type="text" name="writer" id="writer" placeholder="Judul" />
+            <input type="text" name="writer" id="writer" placeholder="Pengarang" />
         </div>
         <div>
             <label for="image">Image</label>
-            <input type="file" name="image" id="image" placeholder="Judul" />
+            <input type="file" name="image" id="image"/>
         </div>
         <div>
             <label for="content">Content</label>
